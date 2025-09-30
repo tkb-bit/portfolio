@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tushilesh Borse | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Reset ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: #f5f5f5;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: #00ffa3; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ===== Background Pattern ===== */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 20% 20%, rgba(0,255,163,0.08) 0%, transparent 40%),
+                  radial-gradient(circle at 80% 80%, rgba(0,255,163,0.08) 0%, transparent 40%);
+      background-color: #0a0a0a;
+      z-index: -2;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      width: 200%; height: 200%;
+      background-image: linear-gradient(transparent 97%, rgba(0,255,163,0.1) 98%);
+      background-size: 60px 60px;
+      animation: moveGrid 30s linear infinite;
+      z-index: -1;
+    }
+    @keyframes moveGrid {
+      from { transform: translateY(0); }
+      to { transform: translateY(-60px); }
+    }
+
+    /* ===== Background Elements ===== */
+    .bg-elements {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .particle {
+      position: absolute;
+      background: rgba(0,255,163,0.05);
+      border-radius: 50%;
+      filter: blur(20px);
+      animation: float 40s infinite linear;
+    }
+    @keyframes float {
+      from { transform: translateY(100vh) rotate(0deg); opacity: 0.5; }
+      to { transform: translateY(-100vh) rotate(360deg); opacity: 0.5; }
+    }
+
+    /* ===== Loader ===== */
+    #loader {
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      background: #0a0a0a; display:flex; align-items:center; justify-content:center;
+      flex-direction:column; z-index: 9999;
+      color:#00ffa3; font-size:1.2rem; letter-spacing:2px;
+      font-family: 'Orbitron', monospace;
+    }
+    .spinner {
+      border: 3px solid rgba(0,255,163,0.2);
+      border-top: 3px solid #00ffa3;
+      border-radius: 50%;
+      width: 50px; height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 10px;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    /* ===== Navbar ===== */
+    header {
+      position: fixed; top:0; left:0; width:100%;
+      background: rgba(10,10,10,0.9);
+      display:flex; justify-content:space-between; align-items:center;
+      padding: 15px 20px; z-index:1000;
+      backdrop-filter: blur(5px);
+    }
+    header h1 { color:#00ffa3; font-size:1.4rem; letter-spacing:2px; font-family: 'Orbitron', monospace; }
+    nav ul { display:flex; list-style:none; gap:20px; }
+    nav ul li a { font-size:0.9rem; font-weight:500; transition: color 0.3s; }
+    nav ul li a:hover { color: #00ffa3; text-shadow: 0 0 5px #00ffa3; }
+    .hamburger { display:none; flex-direction:column; cursor:pointer; }
+    .hamburger span { width:25px; height:3px; background:#00ffa3; margin:4px 0; transition: 0.3s; }
+    .hamburger:hover span { background: #00ffa3; box-shadow: 0 0 5px #00ffa3; }
+
+    /* ===== Hero ===== */
+    .hero {
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; min-height:100vh; padding:100px 20px 40px;
+    }
+    .profile-img {
+      width: 120px; height: 120px; border-radius: 50%;
+      border: 3px solid #00ffa3; box-shadow: 0 0 20px rgba(0,255,163,0.5);
+      margin-bottom: 20px;
+    }
+    .hero h2 { font-size:2rem; margin:10px 0; color:#00ffa3; font-family: 'Orbitron', monospace; }
+    .hero .tagline { font-size:1.2rem; margin:10px 0; color:#f5f5f5; }
+    .hero p { max-width:600px; margin:10px auto; }
+    .info-cards { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:20px 0; }
+    .info-cards .card {
+      background: rgba(0,255,163,0.1); padding:8px 12px; border-radius:4px;
+      border:1px solid rgba(0,255,163,0.3); font-size:0.9rem;
+      transition: box-shadow 0.3s;
+    }
+    .info-cards .card:hover { box-shadow: 0 0 10px rgba(0,255,163,0.5); }
+    .hero .buttons { margin-top:20px; display:flex; gap:15px; flex-wrap:wrap; }
+    .hero .btn {
+      background:#00ffa3; color:#0a0a0a; padding:10px 20px; border-radius:5px;
+      transition:0.3s; font-weight:bold; font-family: 'Orbitron', monospace;
+    }
+    .hero .btn:hover { box-shadow:0 0 15px #00ffa3; }
+
+    /* ===== Sections ===== */
+    section { padding:80px 20px; max-width:1000px; margin:auto; }
+    section h3 { font-size:1.5rem; margin-bottom:20px; color:#00ffa3; font-family: 'Orbitron', monospace; text-shadow: 0 0 5px #00ffa3; }
+
+    /* ===== About ===== */
+    .about p { margin-bottom:15px; }
+    .badges { display:flex; flex-wrap:wrap; gap:10px; margin-top:15px; }
+    .badge {
+      background: rgba(0,255,163,0.1);
+      padding:8px 12px; border-radius:4px; font-size:0.8rem;
+      border:1px solid rgba(0,255,163,0.3);
+      transition: box-shadow 0.3s;
+    }
+    .badge:hover { box-shadow: 0 0 10px rgba(0,255,163,0.5); }
+
+    /* ===== Skills ===== */
+    .skills-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:15px;
+    }
+    .skill {
+      background: rgba(255,255,255,0.03);
+      padding:15px; border-radius:8px;
+      text-align:center; font-size:0.9rem;
+      border:1px solid rgba(0,255,163,0.2);
+      transition: box-shadow 0.3s;
+    }
+    .skill:hover { box-shadow: 0 0 12px rgba(0,255,163,0.5); }
+    .skill h4 { color: #00ffa3; margin-bottom: 5px; font-family: 'Orbitron', monospace; }
+
+    /* ===== Projects ===== */
+    .projects-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+    }
+    .project {
+      background: rgba(255,255,255,0.03);
+      padding:20px; border-radius:8px;
+      border:1px solid rgba(0,255,163,0.2);
+      transition:0.3s;
+    }
+    .project:hover { box-shadow:0 0 12px rgba(0,255,163,0.5); }
+    .project h4 { margin-bottom:10px; color:#00ffa3; font-family: 'Orbitron', monospace; }
+
+    /* ===== Footer ===== */
+    footer {
+      text-align:center; padding:20px; font-size:0.8rem;
+      background:#0f0f0f; margin-top:40px; border-top:1px solid rgba(0,255,163,0.2);
+      color: #00ffa3;
+    }
+
+    /* ===== Animations ===== */
+    .fade-in { opacity:0; transform:translateY(30px); transition:all 0.8s ease-out; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+
+    /* ===== Responsive ===== */
+    @media(max-width:768px){
+      nav { display:none; position:absolute; top:60px; right:20px; background:#0f0f0f; padding:15px; border-radius:8px; }
+      nav ul { flex-direction:column; gap:10px; }
+      .hamburger { display:flex; }
+      nav.active { display:block; }
+      .hero h2 { font-size: 1.5rem; }
+      .hero .tagline { font-size: 1rem; }
+      .info-cards { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Elements -->
+  <div class="bg-elements">
+    <div class="particle" style="width: 100px; height: 100px; top: 10%; left: 20%; animation-delay: 0s;"></div>
+    <div class="particle" style="width: 80px; height: 80px; top: 30%; left: 70%; animation-delay: 5s;"></div>
+    <div class="particle" style="width: 120px; height: 120px; top: 60%; left: 10%; animation-delay: 10s;"></div>
+    <div class="particle" style="width: 90px; height: 90px; top: 80%; left: 80%; animation-delay: 15s;"></div>
+    <div class="particle" style="width: 70px; height: 70px; top: 20%; left: 50%; animation-delay: 20s;"></div>
+    <div class="particle" style="width: 110px; height: 110px; top: 50%; left: 30%; animation-delay: 25s;"></div>
+    <div class="particle" style="width: 60px; height: 60px; top: 70%; left: 60%; animation-delay: 30s;"></div>
+    <div class="particle" style="width: 130px; height: 130px; top: 40%; left: 90%; animation-delay: 35s;"></div>
+  </div>
+  <!-- Loader -->
+  <div id="loader">
+    <div class="spinner"></div>
+    Loading...
+  </div>
+
+  <!-- Header -->
+  <header>
+    <h1>TKB</h1>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero fade-in">
+    <img src="images/profile.jpg" alt="Profile" class="profile-img">
+    <h2>Tushilesh Borse</h2>
+    <div class="tagline" id="tagline"></div>
+    <p>Passionate about securing digital worlds and building innovative solutions.</p>
+    <div class="info-cards">
+      <div class="card">Maharashtra, India</div>
+      <div class="card">Marathi, Hindi, English</div>
+    </div>
+    <div class="buttons">
+      <a href="mailto:tushi.borse26@gmail.com" class="btn">Email Me</a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="about fade-in">
+    <h3>About Me</h3>
+    <p>I am an ethical hacker and web/app developer with a passion for security and innovation. My focus is on Web Application Penetration Testing, Mobile App Security, and OSINT.</p>
+    <p>Tools I use: Kali Linux, Burp Suite, Metasploit, Nmap, Wireshark.</p>
+    <p>Development skills: JavaScript, Node.js, React, Flutter, Python.</p>
+    <div class="badges">
+      <span class="badge">Bug Bounties</span>
+      <span class="badge">CTFs</span>
+      <span class="badge">Web Apps</span>
+      <span class="badge">Mobile Apps</span>
+      <span class="badge">Automation</span>
+      <span class="badge">Writeups</span>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="fade-in">
+    <h3>Skills</h3>
+    <div class="skills-grid">
+      <div class="skill">
+        <h4>Kali Linux</h4>
+        <p>Pen-testing distro</p>
+      </div>
+      <div class="skill">
+        <h4>Burp Suite</h4>
+        <p>Web vulnerability scanner</p>
+      </div>
+      <div class="skill">
+        <h4>Web Pentest</h4>
+        <p>AppSec testing</p>
+      </div>
+      <div class="skill">
+        <h4>Mobile App Security</h4>
+        <p>Android/iOS audits</p>
+      </div>
+      <div class="skill">
+        <h4>Python Automation</h4>
+        <p>Custom tools/scripts</p>
+      </div>
+      <div class="skill">
+        <h4>JavaScript/Node.js</h4>
+        <p>Backend development</p>
+      </div>
+      <div class="skill">
+        <h4>React/Flutter</h4>
+        <p>Modern app dev</p>
+      </div>
+      <div class="skill">
+        <h4>OSINT</h4>
+        <p>Intelligence gathering</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="fade-in">
+    <h3>Projects</h3>
+    <div class="projects-grid">
+      <div class="project">
+        <h4>Voting System</h4>
+        <p>Secure online voting platform.</p>
+      </div>
+      <div class="project">
+        <h4>Farmer Connect Trading</h4>
+        <p>Fair trade platform for farmers.</p>
+      </div>
+      <div class="project">
+        <h4>AI Bot</h4>
+        <p>Intelligent automation assistant.</p>
+      </div>
+      <div class="project">
+        <h4>College AI Portal</h4>
+        <p>Smart student + teacher portal with analytics.</p>
+      </div>
+      <div class="project">
+        <h4>Women Safety & Sleep Alert</h4>
+        <p>Emergency safety app and driver fatigue alert system.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © <span id="year"></span> Tushilesh Borse — Built for mobile. Designed minimal & fast.
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Loader
+    window.addEventListener("load", () => {
+      document.getElementById("loader").style.display = "none";
+    });
+
+    // Typing animation
+    const taglineText = "Ethical Hacker · Cybersecurity Specialist · Web & App Developer";
+    const taglineElement = document.getElementById("tagline");
+    let i = 0;
+    function typeWriter() {
+      if (i < taglineText.length) {
+        taglineElement.innerHTML += taglineText.charAt(i);
+        i++;
+        setTimeout(typeWriter, 100);
+      }
+    }
+    window.addEventListener("load", () => {
+      setTimeout(typeWriter, 1000); // Start after loader
+    });
+
+    // Fade-in on scroll
+    const faders = document.querySelectorAll(".fade-in");
+    const appear = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    faders.forEach(fader => appear.observe(fader));
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function(e){
+        e.preventDefault();
+        document.querySelector(this.getAttribute("href")).scrollIntoView({ behavior: "smooth" });
+        document.querySelector("nav").classList.remove("active");
+      });
+    });
+
+    // Hamburger
+    function toggleMenu(){ document.querySelector("nav").classList.toggle("active"); }
+
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
